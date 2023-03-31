@@ -1,11 +1,24 @@
-import React from "react";
+import React, { useEffect } from "react";
 import bannerImg from "../Assets/Image/main_banner.png";
 // import logo from "../Assets/Image/logo.jpg"
 import "../Assets/Css/Home.css";
 import { Link } from "react-router-dom";
 import NewsCard from "./NewsCard";
 
-export default function Home() {
+export default function Home(props) {
+
+  const loadPage =()=>{
+    props.setProgress(20)
+  
+    setTimeout(() => {
+      props.setProgress(100)
+    }, 2000);
+  }
+
+  useEffect(() => {
+    loadPage(); // eslint-disable-next-line
+  }, [])
+  
   return (
     <div>
       <div className="hero-section">
@@ -14,14 +27,14 @@ export default function Home() {
           className="banner-img carousel slide"
           data-bs-ride="carousel"
         >
-          <div class="carousel-inner">
-            <div class="carousel-item active">
-              <img src={bannerImg} class="d-block w-100" alt="..." />
+          <div className="carousel-inner">
+            <div className="carousel-item active">
+              <img src={bannerImg} className="d-block w-100" alt="..." />
             </div>
           </div>
         </div>
-        {/* <img src={logo} class="logo" alt="" /> */}
-        <Link to="/alumni" type="button" class="alumni-btn btn btn-info text-white">
+        {/* <img src={logo} className="logo" alt="" /> */}
+        <Link to="/alumni" type="button" className="alumni-btn btn btn-info text-white">
           View our Alumni
         </Link>
       </div>

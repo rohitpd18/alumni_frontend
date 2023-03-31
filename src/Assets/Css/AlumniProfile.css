@@ -3,7 +3,7 @@
 .title{
     margin-top: 100px;
     font-family: "Creepster", cursive, "Courier New", Courier, monospace;
-    font-size: 60px;
+    font-size: 40px;
     letter-spacing: 2px;
     word-spacing: 10px;
 }
@@ -24,15 +24,16 @@
 .profile-container{
     margin-top: 50px;
     margin-inline: 100px;
-
+    z-index: 10;
 }
 
 .profile-pic{
     width: 200px;
-    z-index: 1
+    z-index: 20;
 }
   
 .profile-card-body{
+    z-index: 0;
     padding-top: 50px;
     padding-inline: 100px;
 }

@@ -1,5 +1,19 @@
 @import url("https://fonts.googleapis.com/css2?family=Creepster&family=Lobster+Two&family=Lora&display=swap");
 
+.card{
+  min-height: 600px;
+}
+
+.card-up{
+  cursor: pointer;
+}
+
+.card-body{
+  /* margin-inline: auto !important; */
+  text-align: center;
+  
+}
+
 .card-title {
   font-family: "Creepster", cursive, "Courier New", Courier, monospace;
   font-size: 40px;
@@ -10,7 +24,7 @@
 .card-subtitle {
   color: #29cafd;
   font-family: "Lobster Two", cursive, "Courier New", Courier, monospace;
-  font-size: 30px;
+  font-size: 22px;
   letter-spacing: 2px;
 }
 
@@ -57,12 +71,13 @@
 .social-menu ul li:nth-child(2) a:hover {
   background-color: #55acee;
 }
-/* .social-menu ul li:nth-child(3) a:hover {
-    background-color: #e4405f;
-}
-.social-menu ul li:nth-child(4) a:hover {
-    background-color: #cd201f;
-} */
 .social-menu ul li:nth-child(3) a:hover {
   background-color: #0077b5;
 }
+.social-menu ul li:nth-child(4) a:hover {
+  background-color: #e4405f;
+}
+/*
+.social-menu ul li:nth-child(5) a:hover {
+  background-color: #cd201f;
+} */
