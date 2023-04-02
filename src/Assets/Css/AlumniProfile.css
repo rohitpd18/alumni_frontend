@@ -29,11 +29,9 @@
 
 .profile-pic{
     width: 200px;
-    z-index: 20;
 }
   
 .profile-card-body{
-    z-index: 0;
     padding-top: 50px;
     padding-inline: 100px;
 }
@@ -55,42 +53,38 @@
         font-size: 20px;
     }
     .profile-container{
-        margin-inline: 20px;
+        margin-inline: 40px;
     
     }    
     .profile-pic{
         width: 130px;
-        z-index: 1;
     }
     .back-image{
         height: 180px;
     }
 
-    .card-body{
+    .profile-card-body{
+        padding-inline: 50px;
+    }
+    
+    /* .card-body{
         padding-top: 50px;
         padding-inline: 20px;
-    }
+    } */
     
 
-    .about{
-        margin-block: 40px;
-        /* color: red; */
-        font-size: 15px;
-
-    }
-
-    .card-body div div{
+    /* .card-body div div{
         margin-left: 15px;
         
-    }
+    } */
     
-    .about p{
+    /* .about p{
         font-size: 20px;
     
-    }
-}
+    } */
+} 
 
-@media screen and (max-width: 400px) {
+@media screen and (max-width: 510px) {
     .btn{
         font-size: 15px;
         padding: 10px;
@@ -106,5 +100,38 @@
     }
     .back-image{
         height: 160px;
+    }
+    .profile-card-body{
+        padding-inline: 35px;
+    }
+    
+    
+}
+
+
+@media screen and (max-width: 375px) {
+    .title{
+        font-size: 15px;
+        margin-top: 90px;
+    }
+    .btn {
+        font-size: 12px;
+        padding: 8px;
+    }
+
+    .profile-card-body{
+        padding-inline: 30px;
+    }
+    .profile-container {
+        margin-inline: 20px;
+    }
+    .profile-pic{
+        width: 80px;
+    }
+    .back-image{
+        height: 150px;
+    }
+    .about{
+        margin-top: 50px;
     }
 }

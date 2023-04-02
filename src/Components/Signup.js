@@ -5,42 +5,53 @@ import { useNavigate } from "react-router";
 import Navbar from "./Navbar";
 
 export default function Signup(props) {
+  // setting title
+  document.title = "Alumnis- Login";
+
   let navigate = useNavigate();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [rollNo, setRollNo] = useState("");
   const [password, setPassword] = useState("");
-  const [comPass, setComPass] = useState('')
+  const [comPass, setComPass] = useState("");
   const [year, setYear] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if(password!==comPass){
-      props.showAlert('Repeat password does not match', "danger")
+
+    if (password !== comPass) {
+      props.showAlert("Repeat password does not match", "danger");
     }
-    const result = await axios.post("/auth/signup", {
-      email,
-      rollNo: parseInt(rollNo),
-      password,
-      name,
-      year,
-    }).catch(()=>{ props.showAlert("Invaild details", "danger")})
+
+    // fetching alumni
+    let result=''
+    try {
+      result = await axios.post("/auth/signup", {
+        email,
+        rollNo: parseInt(rollNo),
+        password,
+        name,
+        year,
+      });
+    } 
+    // showing accont already exists
+    catch {
+      props.showAlert("Invaild details", "danger");
+    }
 
     
-    console.log(result);
-    console.log(result.data.sucess);
-    if(result.data.mass==="already account created") {
-      props.showAlert("already account created", "danger")
-    }else{
-      props.showAlert("Signup Sucessfull", "danger")
+    // checking that alumni make there account or not
+    if (result.data.mass === "already account created") {
+      props.showAlert("already account created", "danger");
+    } else {
+      props.showAlert("Signup Sucessfull", "danger");
       navigate("/login");
-
     }
   };
 
   return (
     <div>
-      <Navbar/>
+      <Navbar />
       <section className="">
         <div className="container">
           <div className="row d-flex justify-content-center align-items-center h-100">
@@ -98,10 +109,11 @@ export default function Signup(props) {
                         <div className="d-flex flex-row align-items-center mb-4">
                           <i className="fas fa-user fa-lg me-3 fa-fw"></i>
                           <div className="form-outline flex-fill mb-0">
-                            <select class="select form-control" onChange={(e)=>setYear(e.target.value)}>
-                              <option disabled >
-                                Select
-                              </option>
+                            <select
+                              className="select form-control"
+                              onChange={(e) => setYear(e.target.value)}
+                            >
+                              <option disabled>Select</option>
                               <option value="2016-2020">2016-2020</option>
                               <option value="2017-2021">2017-2021</option>
                               <option value="2018-2022">2018-2022</option>

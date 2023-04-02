@@ -7,22 +7,36 @@ import Navbar from "./Navbar";
 
 export default function Alumni(props) {
   const [alumnis, setAlumnis] = useState([]);
+  const [loading, setLoading] = useState(false) 
 
 
+  // setting title
+  document.title= "RKMGEC - Alumnis"
   // alumnis fecting
   const fetchAlumni = async (query) => {
-    console.log("fire");
+    
+    // setting loading as true
+    setLoading(true)
+
     props.setProgress(10);
+
+    // fetching data from backend
     const response = await axios.get(`/api/alumnis/${query}`);
     props.setProgress(50);
     const json = JSON.parse(JSON.stringify(response.data.data.alumni));
     const entries = json;
 
     props.setProgress(80);
+
+    // setting fetched data in alumnis
     setAlumnis(entries);
     props.setProgress(100);
+
+    // setting loading as false
+    setLoading(false)
   };
 
+  // filter function for alumnis
   const handleLoction = (e) => {
     const btns = Array.from(document.getElementsByClassName("filter"));
 
@@ -33,6 +47,7 @@ export default function Alumni(props) {
     e.target.classList.add("active");
   };
 
+
   useEffect(() => {
     fetchAlumni("/"); // eslint-disable-next-line 
   }, []);
@@ -40,7 +55,9 @@ export default function Alumni(props) {
 
   return (
     <>
+    {!loading && <>
     <Navbar showAlert={props.showAlert}/>
+    
       <div className="year-filter d-flex justify-content-center gap-5 mt-4">
         <nav
           id="navbar flex-wrap"
@@ -92,7 +109,7 @@ export default function Alumni(props) {
             dept={a.dept}
           />;
         })}
-      </div>
+      </div></>}
     </>
   );
 }

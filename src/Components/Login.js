@@ -1,35 +1,44 @@
 import React, { useState } from "react";
 import loginImage from "../Assets/Image/login.svg";
-import axios from '../axios'
-import {useNavigate} from 'react-router'
+import axios from "../axios";
+import { useNavigate } from "react-router";
 import Navbar from "./Navbar";
 
-
 export default function Login(props) {
-  let navigate= useNavigate()
+  let navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  // handling after submiting
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    const response= await axios.post('/auth/login', {
-      email, password
-    }).catch(()=>{
-      props.showAlert('Invaild Credentials', "danger")
+    e.preventDefault();
 
-    })
-    if(response===undefined) return
-    else{
-      const authToken= response.data.authToken
-      console.log(response.data);
-      props.showAlert('Login successfully', "success")
-      localStorage.setItem('authToken', authToken)
-      localStorage.setItem('id', response.data.data.alumni.id)
-      navigate('/alumni')
+    // fecthing alumni
+    let response = "";
+    try {
+      response = await axios.post("/auth/login", {
+        email,
+        password,
+      });
+    } catch {
+      // showing that invaild details
+      props.showAlert("Invaild Credentials", "danger");
     }
 
+    // if alumni does not exist then just simple return
+    if (response === undefined) return;
+    else {
+      const authToken = response.data.authToken;
+      console.log(response.data);
+      props.showAlert("Login successfully", "success");
 
+      // setting auth-token and id in local stroage
+      localStorage.setItem("authToken", authToken);
+      localStorage.setItem("id", response.data.data.alumni.id);
 
+      // navigate to alumni page
+      navigate("/alumni");
+    }
   };
   return (
     <div>
