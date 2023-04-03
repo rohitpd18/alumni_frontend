@@ -3,12 +3,17 @@ import AlumniCard from "./AlumniCard";
 import { useState, useEffect } from "react";
 import axios from "../axios";
 import Navbar from "./Navbar";
+import Search from "./Search";
 
 
 export default function Alumni(props) {
   const [alumnis, setAlumnis] = useState([]);
   const [loading, setLoading] = useState(false) 
-
+  const [query, setQuery] = useState({
+    name: "",
+    dept:"",
+    year: "",
+  });
 
   // setting title
   document.title= "RKMGEC - Alumnis"
@@ -34,17 +39,8 @@ export default function Alumni(props) {
 
     // setting loading as false
     setLoading(false)
-  };
 
-  // filter function for alumnis
-  const handleLoction = (e) => {
-    const btns = Array.from(document.getElementsByClassName("filter"));
 
-    btns.forEach((e) => {
-      e.classList.remove("active");
-    });
-
-    e.target.classList.add("active");
   };
 
 
@@ -57,48 +53,11 @@ export default function Alumni(props) {
     <>
     {!loading && <>
     <Navbar showAlert={props.showAlert}/>
+
+    <Search setQuery={setQuery} query={query}/>
     
-      <div className="year-filter d-flex justify-content-center gap-5 mt-4">
-        <nav
-          id="navbar flex-wrap"
-          style={{ display: "flex", flexWrap: "wrap" }}
-        >
-          <ul>
-            <button
-              onClick={(e)=>{handleLoction(e); fetchAlumni("?year=2016-2020")}}
-              className="filter btn btn-outline-info"
-            >
-              2016-2020
-            </button>
-          </ul>
-          <ul>
-            <button 
-              onClick={(e)=>{handleLoction(e); fetchAlumni("?year=2017-2021")}}
-              className="filter btn btn-outline-info"
-            >
-              2017-2021
-            </button>
-          </ul>
-          <ul>
-            <button
-              onClick={(e)=>{handleLoction(e); fetchAlumni("?year=2018-2022")}}
-              className="filter btn btn-outline-info"
-            >
-              2018-2022
-            </button>
-          </ul>
-          <ul>
-            <button
-              onClick={(e)=>{handleLoction(e); fetchAlumni("/")}}
-              className="filter btn btn-outline-info active"
-            >
-              All Alumni
-            </button>
-          </ul>
-        </nav>
-      </div>
       <div className="d-flex flex-wrap m-3 mx-5 gap-5 mt-5 justify-content-evenly">
-        {alumnis.map((a) => {
+        {alumnis.filter((alu) =>alu.name.toLowerCase().includes(query.name)).filter((alu)=>query.year===""?true:alu.year===query.year).filter((alu)=>query.dept===""?true:alu.dept===query.dept).map((a) => {
           return <AlumniCard
             key={a._id}
             id={a._id}
