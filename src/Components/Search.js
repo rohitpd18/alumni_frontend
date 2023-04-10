@@ -1,4 +1,5 @@
 import React from "react";
+import "../Assets/Css/Search.css"
 
 const Search = ({query, setQuery }) => {
   const handelChange = (e) => {
@@ -14,12 +15,12 @@ const Search = ({query, setQuery }) => {
     <>
       {/* alumnis Filter */}
       <form>
-        <div className="d-flex flex-wrap gap-3 m-5 justify-content-evenly">
+        <div className="d-flex flex-wrap m-5 justify-content-evenly">
             <input
               value={query.name}
               onChange={handelChange}
               style={{width: "400px"}}
-              className="form-control"
+              className="form-input"
               type="text"
               name="name"
               placeholder="Write Alumni Name"
@@ -29,10 +30,10 @@ const Search = ({query, setQuery }) => {
               name="year"
               onChange={handelChange}
               style={{width: "400px"}}
-              className="form-select"
+              className="form-input"
               aria-label="Default select example"
             >
-              <option value="">All Alumnis</option>
+              <option value="">Select Year</option>
               <option value="2016-2020">2016-2020</option>
               <option value="2017-2021">2017-2021</option>
               <option value="2018-2022">2018-2022</option>
@@ -42,10 +43,10 @@ const Search = ({query, setQuery }) => {
               name="dept"
               onChange={handelChange}
               style={{width: "400px"}}
-              className="form-select"
+              className="form-input"
               aria-label="Default select example"
             >
-              <option>All department</option>
+              <option>Select Department</option>
               <option value="CSE">CSE</option>
               <option value="ECE">ECE</option>
               <option value="CE">CE</option>

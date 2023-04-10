@@ -7,6 +7,7 @@ import Search from "./Search";
 
 
 export default function Alumni(props) {
+  
   const [alumnis, setAlumnis] = useState([]);
   const [loading, setLoading] = useState(false) 
   const [query, setQuery] = useState({

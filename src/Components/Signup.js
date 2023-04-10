@@ -6,7 +6,7 @@ import Navbar from "./Navbar";
 
 export default function Signup(props) {
   // setting title
-  document.title = "Alumnis- Login";
+  document.title = "Alumnis- Signup";
 
   let navigate = useNavigate();
   const [name, setName] = useState("");
@@ -57,7 +57,7 @@ export default function Signup(props) {
           <div className="row d-flex justify-content-center align-items-center h-100">
             <div className="col-lg-12 col-xl-11">
               <div
-                className="card bg-dark my-3 text-black"
+                className="form-card card my-3 text-black"
                 style={{ borderRadius: "25px" }}
               >
                 <div className="card-body p-md-5">
@@ -112,8 +112,9 @@ export default function Signup(props) {
                             <select
                               className="select form-control"
                               onChange={(e) => setYear(e.target.value)}
+                              name="year"
                             >
-                              <option disabled>Select</option>
+                              <option >Select</option>
                               <option value="2016-2020">2016-2020</option>
                               <option value="2017-2021">2017-2021</option>
                               <option value="2018-2022">2018-2022</option>

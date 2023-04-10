@@ -1,25 +1,17 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import "../Assets/Css/AlumniProfile.css";
 import axios from "../axios";
 import Navbar from "./Navbar";
-import defaultPic from "../Assets/Image/profile_pic.jpeg";
+import defaultPic from "../Assets/Image/profile_pic.webp";
 
 export default function AlumniProfile(props) {
   let location = useLocation();
   const [alumni, setAlumni] = useState({});
   const [auth, setAuth] = useState(false);
-  const [about, setAbout] = useState("");
-  const [company, setCompany] = useState("");
-  const [position, setPosition] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const aboutRef = useRef();
-  const editRef = useRef();
-
   const id = location.pathname.slice(8);
-
-  let saveBtn = "";
 
   const fetchProfile = async () => {
     setLoading(true);
@@ -35,9 +27,6 @@ export default function AlumniProfile(props) {
     props.setProgress(80);
 
     setAlumni(response.data.alumni);
-    setPosition(response.data.alumni.position);
-    setCompany(response.data.alumni.company);
-    setAbout(response.data.alumni.about);
 
     // setting auth for alumni access own account
     if (id === response.data.authUser) setAuth(true);
@@ -52,177 +41,309 @@ export default function AlumniProfile(props) {
     fetchProfile(); // eslint-disable-next-line
   }, []);
 
-  const saveChange = () => {
-    console.log("asdf");
-  };
+  // making element Editable
+  const editEle = (e) => {
+    const editBtn=e.target
+    editBtn.innerText="Save"
+    editBtn.classList="alumni-btn btn btn-outline-success text-white"
 
-  // Edit alumni
-  const handleEdit = (e) => {
-    console.log("handleEdit fire");
-    const editBtn = e.target;
-
-    let parElm = document.createElement("div");
-    parElm.classList = "d-flex gap-2 flex-1 justify-content-center";
-
-    // create save btn
-    const element = document.createElement("button");
-    element.setAttribute("onClick", saveChange);
-    element.classList = "btn btn-outline-success text-white saveBtn";
-    const textNode = document.createTextNode("Save");
-    element.appendChild(textNode);
-
-    // // create cancel button
-    // const element2 = document.createElement("button");
-    // element2.classList= "btn btn-outline-danger text-white"
-    // const textNode2= document.createTextNode("Cancel")
-    // element2.appendChild(textNode2);
-
-    parElm.appendChild(element);
-    // parElm.appendChild(element2)
-    // editBtn.parentElement.replaceChild(parElm, e.target);
-
-    // editRef.current.outerHTML=`<div><button class="btn btn-outline-success text-white" id="saveBtn" style='width: 100%'>Save</button></div>`
-    editBtn.outerHTML = `<div><button class="btn btn-outline-success text-white" id="saveBtn" style='width: 100%'>Save</button></div>`;
 
     // save change
     const aboutEle = document.getElementById("about");
     aboutEle.outerHTML = `<textarea id='aboutInput' style="width: 100%">${
-      alumni.about === undefined ? "" : about
-    }</textarea>`;
-    saveBtn = document.getElementById("saveBtn");
+      alumni.about === undefined ? "" : alumni.about
+    }</textarea>`
 
-    // // Position change
-    // const positionEle = document.getElementById("position");
-    // positionEle.outerHTML = `<input id='positionInput' style="width: 100%" value="${position===undefined?"":position}"/>`;
-
-    // company change
+    // selecting alumnis
     const companyEle = document.getElementById("company");
-    companyEle.outerHTML = `<input id='companyInput' style="width: 100%" value="${
-      alumni.company === undefined ? "" : company
+    const mobileEle = document.getElementById("mobileNo");
+    const emailEle = document.getElementById("email");
+    const inUrlEle = document.getElementById("inUrl");
+    const fbUrlEle = document.getElementById("fbUrl");
+    const ghUrlEle = document.getElementById("ghUrl");
+    const twUrlEle = document.getElementById("twUrl");
+
+    // replaceing with input tag
+    companyEle.outerHTML = `<input name="company" id='companyInput' style="width: 100%" value="${
+      alumni.company === undefined ? "" : alumni.company
     }"/>`;
+    mobileEle.outerHTML = `<input name="mobileNo" id='mobileInput' style="width: 100%" value="${
+      alumni.mobileNo === undefined ? "" : alumni.mobileNo
+    }"/>`;
+    emailEle.outerHTML = `<input name="email" id='emailInput' style="width: 100%" value="${
+      alumni.email === undefined ? "" : alumni.email
+    }"/>`;
+    inUrlEle.outerHTML = `<input name="inUrl" id='inInput' style="width: 50%" value="${
+      alumni.inUrl === undefined ? "" : alumni.inUrl
+    }"/>`;
+    fbUrlEle.outerHTML = `<input name="fbUrl" id='fbInput' style="width: 50%" value="${
+      alumni.fbUrl === undefined ? "" : alumni.fbUrl
+    }"/>`;
+    ghUrlEle.outerHTML = `<input name="ghUrl" id='ghInput' style="width: 50%" value="${
+      alumni.ghUrl === undefined ? "" : alumni.ghUrl
+    }"/>`;
+    twUrlEle.outerHTML = `<input name="twUrl" id='twInput' style="width: 50%" value="${
+      alumni.twUrl === undefined ? "" : alumni.twUrl
+    }"/>`;
+  };
 
-    saveBtn.addEventListener("click", async () => {
-      // about change
-      const aboutInput = document.getElementById("aboutInput");
-      console.log(aboutInput.value);
-      const newAbout = aboutInput.value;
-      setAbout(newAbout);
-      aboutInput.outerHTML = `<div id="about">${newAbout}</div>`;
+  // update alumni
+  const updateAlumni = async (e) => {
+    const saveBtn= e.target
+    // selecting all input tag
+    const aboutInput = document.getElementById("aboutInput");
+    const companyInput = document.getElementById("companyInput");
+    const mobileInput = document.getElementById("mobileInput");
+    const emailInput = document.getElementById("emailInput");
+    const inInput = document.getElementById("inInput");
+    const fbInput = document.getElementById("fbInput");
+    const ghInput = document.getElementById("ghInput");
+    const twInput = document.getElementById("twInput");
 
-      // // position change
-      // const positionInput = document.getElementById("positionInput");
-      // const newPosition = positionInput.value;
-      // setPosition(newPosition);
-      // positionInput.outerHTML = `<p id="position">${newPosition}</p>`;
+    // collecting data from input tag
+    const newAbout = aboutInput.value;
+    const newCompany = companyInput.value;
+    const newMobile = mobileInput.value;
+    const newEmail = emailInput.value;
+    const newIn = inInput.value;
+    const newFb = fbInput.value;
+    const newGh = ghInput.value;
+    const newTw = twInput.value;
 
-      // company change
-      const companyInput = document.getElementById("companyInput");
-      const newCompany = companyInput.value;
-      setCompany(newCompany);
-      companyInput.outerHTML = `<p id="company">${newCompany}</p>`;
+    // replaceing input tag with element
+    aboutInput.outerHTML = `<div id="about" class="text-muted mb-0">${newAbout}</div>`;
+    companyInput.outerHTML = `<p id="company" class="text-muted mb-0">${newCompany}</p>`;
+    mobileInput.outerHTML = `<p id="mobileNo" class="text-muted mb-0">${newMobile}</p>`;
+    emailInput.outerHTML = `<p id="email" class="text-muted mb-0">${newEmail}</p>`;
+    inInput.outerHTML = `<a id="inUrl" href=${
+      newIn === "" ? "/alumnis" : newIn
+    } class="social-handle mb-0">${
+      newIn === "" ? "Not updated yet" : "Linkedin"
+    }</a>`;
+    fbInput.outerHTML = `<a id="fbUrl" href=${
+      newFb === "" ? "/alumnis" : newFb
+    } class="social-handle mb-0">${
+      newFb === "" ? "Not updated yet" : "Facebook"
+    }</a>`;
+    ghInput.outerHTML = `<a id="ghUrl" href=${
+      newGh === "" ? "/alumnis" : newGh
+    } class="social-handle mb-0">${
+      newGh === "" ? "Not updated yet" : "GitHub"
+    }</a>`;
+    twInput.outerHTML = `<a id="twUrl" href=${
+      newTw === "" ? "/alumnis" : newTw
+    } class="social-handle mb-0">${
+      newTw === "" ? "Not updated yet" : "Twitter"
+    }</a>`;
 
-      // save btn to edit btn
-      saveBtn.outerHTML = `<button id="editBtn" class="btn btn-outline-info text-white" style="width: 100%"> Edit Profile</button>`;
+    // save btn to edit btn
+    saveBtn.innerText= "Edit"
+    saveBtn.classList= "alumni-btn btn btn-outline-info text-white"
 
-      console.log({ company, about, position });
-      const response = await axios.put(`/api/alumnis/${id}`, {
-        company: newCompany,
-        about: newAbout,
-      });
-
-      console.log(response);
+    await axios.put(`/api/alumnis/${id}`, {
+      email: newEmail,
+      about: newAbout,
+      company: newCompany,
+      mobileNo: newMobile,
+      inUrl: newIn,
+      fbUrl: newFb,
+      ghUrl: newGh,
+      twUrl: newTw,
     });
+  };
+
+  // handleClick alumni
+  const handleClick = (e) => {
+    if (e.target.innerText === "Edit") {
+      editEle(e);
+    } else {
+      updateAlumni(e);
+    }
   };
   return (
     <>
       {!loading && (
         <>
           <Navbar showAlert={props.showAlert} />
-          <section className="h-100 gradient-custom-2">
-            <div className="container py-5 h-100">
-              <div className="row d-flex justify-content-center align-items-center h-100">
-                <div className="col col-lg-10 col-xl-10">
-                  <div className="card">
-                    <div className="back-image rounded-top d-flex">
-                      <div className="profile-container d-flex flex-column">
-                        <img
-                          src={defaultPic}
-                          alt="Generic placeholder "
-                          className="profile-pic img-fluid img-thumbnail mt-4 mb-2"
-                        />
+
+          {/* profile card */}
+          <section>
+            <div className="container py-5">
+              <div className="row">
+                <div className="col-lg-4">
+                  <div className="alumni-card card mb-4">
+                    <div className="card-body my-5 text-center">
+                      <img
+                        src={defaultPic}
+                        alt="avatar"
+                        className="rounded-circle img-fluid"
+                        style={{ width: " 150px" }}
+                      />
+                      <h5 className="alumni-title my-3">{alumni.name}</h5>
+                      <p className="alumni-subtitle text-muted mb-1">
+                        {alumni.year}({alumni.dept})
+                      </p>
+                      <p className="alumni-subtitle text-muted mb-1">
+                        Ramkrishna Mahato Government Engineering College
+                      </p>
+                      <div className="d-flex justify-content-center mb-2">
                         {auth && (
                           <button
-                            ref={editRef}
-                            onClick={handleEdit}
+                            onClick={handleClick}
+                            id="edit"
                             type="button"
-                            id="editBtn"
-                            className="btn btn-outline-info text-white"
-                            data-mdb-ripple-color="primary"
-                            style={{ zIndex: "1" }}
+                            className="alumni-btn btn btn-outline-info text-white ms-1"
                           >
-                            Edit profile
+                            Edit
                           </button>
                         )}
                       </div>
-                      <div>
-                        <h5 className="title">{alumni.name}</h5>
-                        <p className="subtitle">
-                          {alumni.year}({alumni.dept})
-                        </p>
+                    </div>
+                  </div>
+                  <div className="alumni-card card mb-4 mb-lg-0">
+                    <div className="card-body p-0">
+                      <ul className="alumni-card list-group list-group-flush rounded-3">
+                        <li className="list-group-item d-flex justify-content-between align-items-center p-3">
+                          <i
+                            className="fab fa-linkedin fa-lg"
+                            style={{ color: " #0072b1" }}
+                          ></i>
+                          <a
+                            id="inUrl"
+                            href={
+                              alumni.inUrl === undefined || alumni.inUrl === ""
+                                ? "/alumnis"
+                                : alumni.inUrl
+                            }
+                            className="social-handle mb-0"
+                          >
+                            {alumni.inUrl === undefined || alumni.inUrl === ""
+                              ? "Not updated yet"
+                              : "Linkedin"}
+                          </a>
+                        </li>
+                        <li className="list-group-item d-flex justify-content-between align-items-center p-3">
+                          <i
+                            className="fab fa-twitter fa-lg"
+                            style={{ color: " #55acee" }}
+                          ></i>
+                          <a
+                            id="twUrl"
+                            href={
+                              alumni.twUrl === undefined || alumni.twUrl === ""
+                                ? "/alumnis"
+                                : alumni.twUrl
+                            }
+                            className="social-handle mb-0"
+                          >
+                            {alumni.twUrl === undefined || alumni.twUrl === ""
+                              ? "Not updated yet"
+                              : "Twitter"}
+                          </a>
+                        </li>
+                        <li className="list-group-item d-flex justify-content-between align-items-center p-3">
+                          <i
+                            className="fab fa-facebook-f fa-lg"
+                            style={{ color: " #3b5998" }}
+                          ></i>
+                          <a
+                            id="fbUrl"
+                            href={
+                              alumni.fbUrl === undefined || alumni.fbUrl === ""
+                                ? "/alumnis"
+                                : alumni.fbUrl
+                            }
+                            className="social-handle mb-0"
+                          >
+                            {alumni.fbUrl === undefined || alumni.fbUrl === ""
+                              ? "Not updated yet"
+                              : "Facebook"}
+                          </a>
+                        </li>
+                        <li className="list-group-item d-flex justify-content-between align-items-center p-3">
+                          <i
+                            className="fab fa-github fa-lg"
+                            style={{ color: " #333333" }}
+                          ></i>
+                          <a
+                            id="ghUrl"
+                            href={
+                              alumni.ghUrl === undefined || alumni.ghUrl === ""
+                                ? "/alumnis"
+                                : alumni.ghUrl
+                            }
+                            className="social-handle mb-0"
+                          >
+                            {alumni.ghUrl === undefined || alumni.ghUrl === ""
+                              ? "Not updated yet"
+                              : "GitHub"}
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-lg-8">
+                  <div className="alumni-card card mb-4">
+                    <div className="card-body">
+                      <div className="row">
+                        <div className="col-sm-3">
+                          <p className="mb-0">Full Name</p>
+                        </div>
+                        <div className="col-sm-9">
+                          <p className="text-muted mb-0">{alumni.name}</p>
+                        </div>
+                      </div>
+                      <hr />
+                      <div className="row">
+                        <div className="col-sm-3">
+                          <p className="mb-0">Email</p>
+                        </div>
+                        <div className="col-sm-9">
+                          <p id="email" className="text-muted mb-0">
+                            {alumni.email}
+                          </p>
+                        </div>
+                      </div>
+                      <hr />
+                      <div className="row">
+                        <div className="col-sm-3">
+                          <p className="mb-0">Mobile</p>
+                        </div>
+                        <div className="col-sm-9">
+                          <p id="mobileNo" className="text-muted mb-0">
+                            {alumni.mobileNo}
+                          </p>
+                        </div>
+                      </div>
+                      <hr />
+                      <div className="row">
+                        <div className="col-sm-3">
+                          <p className="mb-0">Company</p>
+                        </div>
+                        <div className="col-sm-9">
+                          <p id="company" className="text-muted mb-0">
+                            {alumni.company}
+                          </p>
+                        </div>
+                      </div>
+                      <hr />
+                      <div className="row">
+                        <div className="col-sm-3">
+                          <p className="mb-0">Department</p>
+                        </div>
+                        <div className="col-sm-9">
+                          <p className="text-muted mb-0">{alumni.dept}</p>
+                        </div>
                       </div>
                     </div>
-
-                    <div className="profile-card-body bg-dark">
-                      {/* about */}
-                      <div className="about">
-                        <h1 className="mb-1">About</h1>
-                        <div ref={aboutRef} id="about">
-                          {alumni.about}
-                        </div>
-                      </div>
-
-                      {/* Exprience */}
-                      <div className="mb-5">
-                        <h1>Exprience</h1>
-                        <div>
-                          <div
-                            id="exprience"
-                            className="subtitle text-warning d-flex mb-0"
-                          >
-                            {/* <p id="position">{position} </p> {position===""?<p>&nbsp;at&nbsp;</p>:""} */}
-                            <p id="company" className="mb-0">
-                              {alumni.company}
-                            </p>
-                          </div>
-                          <small>Mar 2022- current</small>
-                        </div>
-                      </div>
-
-                      <h4>Social Media Handle:</h4>
-                      <div className="social-menu">
-                        <ul className="d-flex justify-content-evenly mt-4">
-                          <li>
-                            <a href="/">
-                              <i className="fa fa-facebook"></i>
-                            </a>
-                          </li>
-                          <li>
-                            <a href="/">
-                              <i className="fa fa-twitter"></i>
-                            </a>
-                          </li>
-                          <li>
-                            <a href="/">
-                              <i className="fa fa-linkedin"></i>
-                            </a>
-                          </li>
-                          <li>
-                            <a href={`mailto: ${props.email}`}>
-                              <i className="fa fa-envelope"></i>
-                            </a>
-                          </li>
-                        </ul>
-                      </div>
+                  </div>
+                  <div className="row">
+                    <div className="alumni-card m-2 p-5 col-md-12">
+                      <h1>About</h1>
+                      <p className="text-muted mb-0" id="about">
+                        {alumni.about === "" ? "Not updated yet" : alumni.about}
+                      </p>
                     </div>
                   </div>
                 </div>

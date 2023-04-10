@@ -1,15 +1,15 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import "../Assets/Css/AlumniCard.css";
-import defaultPic from '../Assets/Image/profile_pic.jpeg'; 
+import defaultPic from '../Assets/Image/profile_pic.webp'; 
 
 export default function Alumni(props) {
   let navigate =useNavigate()
 
   return (
     <div>
-      <div onClick={()=>navigate(`/alumni/${props.id}`)} className="card mb-5 rounded bg-dark" style={{ width: "18rem", zIndex: "10" }}>
-        <div
+      <div onClick={()=>navigate(`/alumni/${props.id}`)} className="all-card fadeInUp card mb-5 rounded">
+        {/* <div
           className="card-up"
           style={{
             height: "25%",
@@ -19,24 +19,24 @@ export default function Alumni(props) {
             backgroundColor: "#21D4FD",
             backgroundImage: "linear-gradient(19deg, #21D4FD 0%, #B721FF 100%)",
           }}
-        ></div>
+        ></div> */}
 
         <div className="avatar mx-auto mt-2">
           <img
             src={defaultPic}
-            className="rounded-circle"
+            className="all-card-img rounded-circle"
             alt="woman avatar"
           />
         </div>
-        <div className="card-body text-center">
-          <h5 className="card-title">{props.name}</h5>
-          <h6 className="card-subtitle text-warning mb-2">Software Engineer at XYZ Ltd</h6>
-          <h6 className="card-subtitle">{props.year}({props.dept})</h6>
-          <p className="card-text">
+        <div className="all-card-body text-center">
+          <h5 className="all-card-title">{props.name}</h5>
+          <h6 className="all-card-subtitle text-warning mb-2">Software Engineer at XYZ Ltd</h6>
+          <h6 className="all-card-subtitle">{props.year}({props.dept})</h6>
+          <p className="all-card-text">
             Some quick example text to build on the card title and make up the
             bulk of the card's content.
           </p>
-
+          {/* <div className="blur"></div> */}
 
           <div className="social-menu">
             <ul className="d-flex justify-content-evenly">

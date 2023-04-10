@@ -1,34 +1,43 @@
 @import url("https://fonts.googleapis.com/css2?family=Creepster&family=Lobster+Two&family=Lora&display=swap");
 
-.card{
+.all-card {
   min-height: 600px;
-}
-
-.card-up{
+  background: transparent;
+  border: 2px solid rgb(255 255 255);
+  backdrop-filter: blur(9px);
+  width: 28rem;
+  margin-inline: 25px;
   cursor: pointer;
 }
 
-.card-body{
-  /* margin-inline: auto !important; */
-  text-align: center;
-  
+.all-card-img{
+  width: 150px;
+  margin-top: 50px;
 }
 
-.card-title {
+p{
+  font-size: 18px;
+}
+.all-card-body {
+  /* margin-inline: auto !important; */
+  text-align: center;
+}
+
+.all-card-title {
   font-family: "Creepster", cursive, "Courier New", Courier, monospace;
-  font-size: 40px;
+  font-size: 45px;
   word-spacing: 7px;
   letter-spacing: 3px;
 }
 
-.card-subtitle {
+.all-card-subtitle {
   color: #29cafd;
   font-family: "Lobster Two", cursive, "Courier New", Courier, monospace;
-  font-size: 22px;
+  font-size: 28px;
   letter-spacing: 2px;
 }
 
-.card-text {
+.all-card-text {
   font-family: "Lora", serif;
 }
 
@@ -41,6 +50,7 @@
 .social-menu ul li {
   list-style: none;
 }
+
 .social-menu ul li .fa {
   color: #000000;
   font-size: 25px;
@@ -81,3 +91,12 @@
 .social-menu ul li:nth-child(5) a:hover {
   background-color: #cd201f;
 } */
+
+
+/* animaction add */
+.fadeInUp{animation:fadeInUp 1s ease backwards;}
+
+@keyframes fadeInUp{
+  0%{transform:translate(0px, 100px); opacity: 0;}
+  100%{transform:translate(0px, 0); opacity: 1;}
+}
