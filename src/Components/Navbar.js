@@ -1,5 +1,6 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
+import "../Assets/Css/Navbar.css";
 
 const Navbar = (props) => {
   let navigate = useNavigate();
@@ -13,9 +14,13 @@ const Navbar = (props) => {
   const id = localStorage.getItem("id");
   return (
     <>
-      <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+      <nav className="navbar navbar-light navbar-expand-lg">
         <div className="container-fluid">
-          <Link className="navbar-brand m-2 h1" aria-current="page" to="/">
+          <Link
+            className="navbar-brand text-dark m-2 h1"
+            aria-current="page"
+            to="/"
+          >
             HomePage
           </Link>
           <button
@@ -38,20 +43,12 @@ const Navbar = (props) => {
                 {!localStorage.getItem("authToken") ? (
                   <>
                     <li className="nav-item">
-                      <Link
-                        className="btn btn-primary"
-                        aria-current="page"
-                        to="/login"
-                      >
+                      <Link aria-current="page" to="/login">
                         Login
                       </Link>
                     </li>
                     <li className="nav-item">
-                      <Link
-                        className="btn btn-primary me-3"
-                        aria-current="page"
-                        to="/signup"
-                      >
+                      <Link aria-current="page" to="/signup">
                         Signup
                       </Link>
                     </li>
@@ -59,22 +56,14 @@ const Navbar = (props) => {
                 ) : (
                   <>
                     <li className="nav-item">
-                      <Link
-                        className="btn btn-primary"
-                        aria-current="page"
-                        to={`/alumni/${id}`}
-                      >
+                      <Link aria-current="page" to={`/alumni/${id}`}>
                         Profile
                       </Link>
                     </li>
                     <li className="nav-item">
-                      <button
-                        className="btn btn-primary"
-                        aria-current="page"
-                        onClick={handleLogout}
-                      >
+                      <Link to="/" aria-current="page" onClick={handleLogout}>
                         Logout
-                      </button>
+                      </Link>
                     </li>
                   </>
                 )}
